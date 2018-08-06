@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:31:12 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/08/06 02:12:49 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/08/06 14:50:25 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "mlx.h"
+#include "libft.h"
+#define Pr .299
+#define Pg .587
+#define Pb .114
 
 typedef struct		s_info
 {
