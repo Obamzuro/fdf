@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 10:16:32 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 13:30:08 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 17:03:32 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 static void		swap_pixels(t_info *info, t_pixel *pixel,
 		t_pixel *pixeltwo, int *isvert)
 {
-	if (abs(pixeltwo->y - pixel->y) > abs(pixeltwo->x - pixel->x))
+	if (fabs(pixeltwo->y - pixel->y) > fabs(pixeltwo->x - pixel->x))
 	{
-		ft_iswap(&pixel->x, &pixel->y);
-		ft_iswap(&pixeltwo->x, &pixeltwo->y);
+		ft_dswap(&pixel->x, &pixel->y);
+		ft_dswap(&pixeltwo->x, &pixeltwo->y);
 		*isvert = 1;
 	}
 	if (pixeltwo->x < pixel->x)
 	{
-		ft_iswap(&pixel->x, &pixeltwo->x);
-		ft_iswap(&pixel->y, &pixeltwo->y);
+		ft_dswap(&pixel->x, &pixeltwo->x);
+		ft_dswap(&pixel->y, &pixeltwo->y);
 	}
 }
 
 static void		draw_line_vertical(t_info *info, t_draw_line_info *dl_info,
 		t_pixel *pixel, t_pixel *pixeltwo)
 {
-	if (dl_info->difxy[1] > 0)
+	if (dl_info->difxy[1] >= 0)
 	{
 		while (dl_info->curxy[0] <= pixeltwo->x)
 		{
@@ -106,7 +106,7 @@ int				draw_line(t_pixel *pixel, t_pixel *pixeltwo, void *state)
 	dl_info.curxy[1] = pixel->y;
 	dl_info.difxy[0] = pixeltwo->x - pixel->x;
 	dl_info.difxy[1] = pixeltwo->y - pixel->y;
-	dl_info.slope = (double)abs(dl_info.difxy[1]) / abs(dl_info.difxy[0]);
+	dl_info.slope = fabs(dl_info.difxy[1]) / fabs(dl_info.difxy[0]);
 	dl_info.error = dl_info.curxy[1];
 	if (dl_info.isvert)
 		draw_line_vertical(info, &dl_info, pixel, pixeltwo);

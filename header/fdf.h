@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:31:12 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 15:03:54 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 16:59:36 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,18 @@ typedef struct		s_info
 
 typedef struct		s_pixel
 {
-	int		x;
-	int		y;
-	int		z;
+	double		x;
+	double		y;
+	double		z;
 }					t_pixel;
 
 typedef struct		s_draw_line_info
 {
-	int			difxy[2];
-	int			curxy[2];
-	int			isvert;
+	double			difxy[2];
+	double			curxy[2];
 	double		slope;
 	double		error;
+	int			isvert;
 }					t_draw_line_info;
 
 typedef struct		s_parser_info

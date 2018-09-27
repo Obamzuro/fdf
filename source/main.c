@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 14:55:22 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 16:50:32 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ int		rotate(int keycode, void *param)
 		info->angle[1] += 20;
 	else if (keycode == 3)
 		info->angle[1] -= 20;
+	else if (keycode == 4)
+		info->angle[2] += 20;
+	else if (keycode == 5)
+		info->angle[2] -= 20;
+	info->angle[0] %= 360;
+	info->angle[1] %= 360;
+	info->angle[2] %= 360;
 	print_map(info);
 	return (0);
 }

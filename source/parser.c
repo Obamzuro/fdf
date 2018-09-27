@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 15:04:04 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 16:46:54 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_ftvector		*parse_map(t_info *info, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	info->offset[0] = (WINWIDTH - parser_info.maxwidth * 10) / 2;
+	info->offset[1] = (WINHEIGHT - pixellines->len * 10) / 2;
 	close(parser_info.fd);
 	return (pixellines);
 }

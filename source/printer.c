@@ -6,18 +6,22 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 13:30:53 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 15:05:06 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 17:05:25 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	parallel_projection(t_pixel *pixel, int *x, int *y, t_info *info)
+static void	parallel_projection(t_pixel *pixel, double *x, double *y, t_info *info)
 {
-	*x = round(cos(info->angle[1] / 360.0 * 3.1415) * pixel->x)
+	*x = round(cos(info->angle[1] / 360.0 * 3.1415)) * pixel->x
+//		(round(cos(info->angle[2] / 360.0 * M_PI) * pixel->x) -
+//		 round(sin(info->angle[2] / 360.0 * M_PI) * pixel->y))
 		- round(pixel->z * sin(info->angle[1] / 360.0 * 3.1415));
-	*y = round(cos(info->angle[0] / 360.0 * 3.1415) * pixel->y)
-		- round(pixel->z * sin(info->angle[0] / 360.0 * 3.1415));
+	*y = round(cos(info->angle[0] / 360.0 * 3.1415)) * pixel->y
+//		(round(sin(info->angle[2] / 360.0 * M_PI) * pixel->x) +
+//		 round(cos(info->angle[2] / 360.0 * M_PI) * pixel->y))
+		+ round(pixel->z * sin(info->angle[0] / 360.0 * 3.1415));
 }
 
 static void	print_right_link(t_info *info, int i, int j)
@@ -28,11 +32,11 @@ static void	print_right_link(t_info *info, int i, int j)
 	parallel_projection(((t_pixel **)(info->pixellines->elem[j]))[i],
 			&pixel.x, &pixel.y, info);
 	pixel.x = pixel.x * 10 + info->offset[0];
-	pixel.y *= 10;
+	pixel.y = pixel.y * 10 + info->offset[1];
 	parallel_projection(((t_pixel **)(info->pixellines->elem[j]))[i + 1],
 			&pixeltwo.x, &pixeltwo.y, info);
 	pixeltwo.x = pixeltwo.x * 10 + info->offset[0];
-	pixeltwo.y *= 10;
+	pixeltwo.y = pixeltwo.y * 10 + info->offset[1];
 	draw_line(&pixel, &pixeltwo, info);
 }
 
@@ -44,11 +48,11 @@ static void	print_down_link(t_info *info, int i, int j)
 	parallel_projection(((t_pixel **)(info->pixellines->elem[j]))[i],
 			&pixel.x, &pixel.y, info);
 	pixel.x = pixel.x * 10 + info->offset[0];
-	pixel.y *= 10;
+	pixel.y = pixel.y * 10 + info->offset[1];
 	parallel_projection(((t_pixel **)(info->pixellines->elem[j + 1]))[i],
 			&pixeltwo.x, &pixeltwo.y, info);
 	pixeltwo.x = pixeltwo.x * 10 + info->offset[0];
-	pixeltwo.y *= 10;
+	pixeltwo.y = pixeltwo.y * 10 + info->offset[1];
 	draw_line(&pixel, &pixeltwo, info);
 }
 
