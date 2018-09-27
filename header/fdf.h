@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:31:12 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 16:59:36 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 18:06:49 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct		s_info
 	void		*win_ptr;
 	int			angle[3];
 	size_t		offset[2];
+	int			scale;
 	t_ftvector	*pixellines;
 }					t_info;
 
