@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 13:30:53 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 18:13:42 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 20:06:11 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	parallel_projection(t_pixel *pixel, double *x, double *y, t_info *in
 	double		angle[3];
 	double		cosangle[3];
 	double		sinangle[3];
+	double		xoverz;
+	double		yoverz;
 
 	angle[0] = info->angle[0] / 360.0 * M_PI;
 	angle[1] = info->angle[1] / 360.0 * M_PI;
@@ -27,13 +29,13 @@ static void	parallel_projection(t_pixel *pixel, double *x, double *y, t_info *in
 	sinangle[0] = sin(angle[0]);
 	sinangle[1] = sin(angle[1]);
 	sinangle[2] = sin(angle[2]);
-	*x = round(cosangle[1] * 
-		(round(cosangle[2] * info->scale * pixel->x) -
-		 round(sinangle[2] * info->scale * pixel->y)))
+	xoverz = round(cosangle[2] * info->scale * (pixel->x - info->center[0])) -
+		 round(sinangle[2] * info->scale * (pixel->y - info->center[1]));
+	yoverz = round(sinangle[2] * info->scale * (pixel->x - info->center[0])) +
+		 round(cosangle[2] * info->scale * (pixel->y - info->center[1]));
+	*x = round(cosangle[1] * xoverz)
 		- round(pixel->z * sinangle[1] * info->scale);
-	*y = round(cosangle[0] *
-		(round(sinangle[2] * info->scale * pixel->x) +
-		 round(cosangle[2] * info->scale * pixel->y)))
+	*y = round(cosangle[0] * yoverz)
 		+ round(pixel->z * sinangle[0] * info->scale);
 }
 

@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 18:26:35 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 20:08:15 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,18 @@ static t_pixel		**parse_line(char *line, int nline,
 static void		offset_memorize(t_info *info, t_ftvector *pixellines,
 		t_parser_info *parser_info)
 {
+	info->center[0] = parser_info->maxwidth / 2;
+	info->center[1] = pixellines->len / 2;
 	if (WINWIDTH - parser_info->maxwidth < WINHEIGHT - pixellines->len)
 		info->scale = WINHEIGHT / (pixellines->len * 3);
 	else
 		info->scale = WINWIDTH / (parser_info->maxwidth * 3);
-	info->offset[0] = (WINWIDTH - parser_info->maxwidth * info->scale) / 2;
+	info->offset[0] = (WINWIDTH - parser_info->maxwidth * info->scale) / 2
+		+ info->center[0] * info->scale;
 	if (info->offset[0] > WINWIDTH / 2)
 		info->offset[0] = 0;
-	info->offset[1] = (WINHEIGHT - pixellines->len * info->scale) / 2;
+	info->offset[1] = (WINHEIGHT - pixellines->len * info->scale) / 2
+		+ info->center[1] * info->scale;
 	if (info->offset[1] > WINHEIGHT / 2)
 		info->offset[1] = 0;
 }

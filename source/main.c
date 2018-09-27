@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 17:18:57 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 20:14:42 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ int		setIntensityOn(int red, int green, int blue, double change)
 	return (result);
 }
 
-int		rotate(int keycode, void *param)
+void	rotate(int keycode, t_info *info)
 {
-	t_info		*info;
-
-	info = (t_info *)param;
 	if (keycode == 0)
 		info->angle[0] += 20;
 	else if (keycode == 1)
@@ -43,6 +40,27 @@ int		rotate(int keycode, void *param)
 	info->angle[0] %= 720;
 	info->angle[1] %= 720;
 	info->angle[2] %= 720;
+}
+
+int		key_press(int keycode, void *param)
+{
+	t_info		*info;
+
+	info = (t_info *)param;
+	if (keycode == 6)
+		info->offset[0] += 20;
+	else if (keycode == 7)
+		info->offset[0] -= 20;
+	else if (keycode == 8)
+		info->offset[1] += 20;
+	else if (keycode == 9)
+		info->offset[1] -= 20;
+	else if (keycode == 11)
+		info->scale += 1;
+	else if (keycode == 45)
+		info->scale -= 1;
+	else
+		rotate(keycode, param);
 	print_map(info);
 	return (0);
 }
@@ -60,7 +78,7 @@ int		main(int argc, char **argv)
 	info.mlx_ptr = mlx_init();
 	info.win_ptr = mlx_new_window(info.mlx_ptr, WINWIDTH, WINHEIGHT, "FDF");
 	info.pixellines = parse_map(&info, argv);
-	mlx_key_hook(info.win_ptr, rotate, &info);
+	mlx_key_hook(info.win_ptr, key_press, &info);
 	print_map(&info);
 	mlx_loop(info.mlx_ptr);
 	return (0);
