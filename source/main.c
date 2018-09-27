@@ -6,187 +6,118 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/08/06 21:37:00 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 12:37:59 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int			setIntensityOn(int red, int green, int blue, double change)
+int		setIntensityOn(int red, int green, int blue, double change)
 {
 	int		result;
 
-	result = (int)(red/* * change*/) << 16;
-	result |= (int)(green/* * change*/) << 8;
-	result |= (int)(blue/* * change*/);
+	result = (int)(red) << 16;
+	result |= (int)(green) << 8;
+	result |= (int)(blue);
 	result |= (int)((1 - change) * 255) << 24;
 	return (result);
 }
 
-int			draw_line(int keycode, int x, int y, void *loh)
+void	parallel_projection(t_pixel *pixel, int angle[3], int *x, int *y)
+{
+	*x = round(cos(angle[1] / 360.0 * 3.1415) * pixel->x)
+		- round(pixel->z * sin(angle[1] / 360.0 * 3.1415)) + 20;
+	*y = round(cos(angle[0] / 360.0 * 3.1415) * pixel->y)
+		- round(pixel->z * sin(angle[0] / 360.0 * 3.1415)) + 20;
+}
+
+void	print_right_link(t_info *info, int i, int j)
+{
+	t_pixel	pixel;
+	t_pixel	pixeltwo;
+
+	parallel_projection(((t_pixel **)(info->pixellines->elem[j]))[i],
+			info->angle, &pixel.x, &pixel.y);
+	pixel.x *= 10;
+	pixel.y *= 10;
+	parallel_projection(((t_pixel **)(info->pixellines->elem[j]))[i + 1],
+			info->angle, &pixeltwo.x, &pixeltwo.y);
+	pixeltwo.x *= 10;
+	pixeltwo.y *= 10;
+	draw_line(&pixel, &pixeltwo, info);
+}
+
+void	print_down_link(t_info *info, int i, int j)
+{
+	t_pixel	pixel;
+	t_pixel	pixeltwo;
+
+	parallel_projection(((t_pixel **)(info->pixellines->elem[j]))[i],
+			info->angle, &pixel.x, &pixel.y);
+	pixel.x *= 10;
+	pixel.y *= 10;
+	parallel_projection(((t_pixel **)(info->pixellines->elem[j + 1]))[i],
+			info->angle, &pixeltwo.x, &pixeltwo.y);
+	pixeltwo.x *= 10;
+	pixeltwo.y *= 10;
+	draw_line(&pixel, &pixeltwo, info);
+
+}
+
+void	print_map(t_info *info)
+{
+	int		i;
+	int		j;
+
+	mlx_clear_window(info->mlx_ptr, info->win_ptr);
+	j = 0;
+	while (j < info->pixellines->len)
+	{
+		i = 0;
+		while (((t_pixel **)info->pixellines->elem[j])[i])
+		{
+			if (((t_pixel **)info->pixellines->elem[j])[i + 1])
+				print_right_link(info, i, j);
+			if (j + 1 < info->pixellines->len)
+				print_down_link(info, i, j);
+			++i;
+		}
+		++j;
+	}
+}
+
+int		rotate(int keycode, void *param)
 {
 	t_info		*info;
-	int			curx;
-	int			cury;
-	int			difx;
-	int			dify;
-	double		k;
-	double		error;
-	int			q;
 
-	q = 0;
-	info = (t_info *)loh;
-	if (!info->sec)
-	{
-		info->prevx = x;
-		info->prevy = y;
-		info->sec = 1;
-		return (0);
-	}
-	if (abs(y - info->prevy) > abs(x - info->prevx))
-	{
-		ft_iswap(&x, &y);
-		ft_iswap(&info->prevx, &info->prevy);
-		q = 1;
-	}
-	if (x < info->prevx)
-	{
-		ft_iswap(&x, &info->prevx);
-		ft_iswap(&info->prevy, &y);
-	}
-	curx = info->prevx;
-	cury = info->prevy;
-	difx = x - info->prevx;
-	dify = y - info->prevy;
-	k = (double)abs(dify) / abs(difx);
-	error = cury;
-	if (q)
-	{
-		if (dify > 0)
-		{
-			while (curx <= x)
-			{
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, (int)error, curx, setIntensityOn(255, 255, 255, 1 - (error - (int)error)));
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, (int)error + 1, curx, setIntensityOn(255, 255, 255, (error - (int)error)));
-				error += k;
-				++curx;
-			}
-		}
-		else
-		{
-			while (curx <= x)
-			{
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, (int)error, curx, setIntensityOn(255, 255, 255, error - (int)error));
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, (int)error - 1, curx, setIntensityOn(255, 255, 255, 1 - (error - (int)error)));
-				error -= k;
-				++curx;
-			}
-		}
-	}
-	else
-	{
-		if (dify > 0)
-		{
-			while (curx <= x)
-			{
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, curx, (int)error, setIntensityOn(255, 255, 255, 1 - (error - (int)error)));
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, curx, (int)error + 1, setIntensityOn(255, 255, 255, (error - (int)error)));
-				error += k;
-				++curx;
-			}
-		}
-		else
-		{
-			while (curx <= x)
-			{
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, curx, (int)error, setIntensityOn(255, 255, 255, error - (int)error));
-				mlx_pixel_put(info->mlx_ptr, info->win_ptr, curx, (int)error - 1, setIntensityOn(255, 255, 255, 1 - (error - (int)error)));
-				error -= k;
-				++curx;
-			}
-		}
-	}
-	info->sec = 0;
+	info = (t_info *)param;
+	if (keycode == 0)
+		info->angle[0] += 20;
+	else if (keycode == 1)
+		info->angle[0] -= 20;
+	else if (keycode == 2)
+		info->angle[1] += 20;
+	else if (keycode == 3)
+		info->angle[1] -= 20;
+	print_map(info);
 	return (0);
 }
 
-//int		draw_line(int keycode, int x, int y, void* loh)
-//{
-//	t_info	*info;
-//	int		cury;
-//	int		curx;
-//	int		difx;
-//	int		dify;
-//
-//	int		i;
-//	int		k;
-//	int		error;
-//	int		diry;
-//
-//	info = (t_info *)loh;
-//	if (!info->sec)
-//	{
-//		info->prevx = x;
-//		info->prevy = y;
-//		info->sec = 1;
-//		return (0);
-//	}
-//	cury = info->prevy;
-//	curx = info->prevx;
-//	error = 0;
-//	k = abs(y - info->prevy);// / abs(x - info->prevx);
-//	info->sec = 0;
-//	if (abs(y - info->prevy) > abs(x - info->prevx))
-//	{
-//		k = abs(x - info->prevx);
-//		dify = y - info->prevy;
-//		difx = x - info->prevx;
-//		if (difx > 0)
-//			difx = 1;
-//		else
-//			difx = -1;
-//		while (dify > 0 ? cury <= y : cury >= y)
-//		{
-//			mlx_pixel_put(info->mlx_ptr, info->win_ptr, curx, cury, 0xFFFFFF);
-//			error += k;
-//			if (2 * error >= abs(y - info->prevy))
-//			{
-//				curx += difx;
-//				error -= abs(y - info->prevy);
-//			}
-//			dify > 0 ? ++cury : --cury;
-//		}
-//	}
-//
-//	dify = y - info->prevy;
-//	difx = x - info->prevx;
-//	if (dify > 0)
-//		dify = 1;
-//	else
-//		dify = -1;
-//	while (difx > 0 ? curx <= x : curx >= x)
-//	{
-//		mlx_pixel_put(info->mlx_ptr, info->win_ptr, curx, cury, 0xFFFFFF);
-//		error += k;
-//		if (2 * error >= abs(x - info->prevx))
-//		{
-//			cury += dify;
-//			error -= abs(x - info->prevx);
-//		}
-//		difx > 0 ? ++curx : --curx;
-//	}
-//	printf("x0 = %7d, y0 = %7d\nx1 = %7d, y1 = %7d\ncurx = %7d\n", info->prevx, info->prevy, x, y, curx);
-//	return (0);
-//}
-
-int		main()
+int		main(int argc, char **argv)
 {
-	t_info	info;
+	t_info		info;
 
+	if (!argv[1])
+	{
+		write(1, "Usage: ./fdf map\n", 17);
+		return (0);
+	}
+	ft_bzero(&info, sizeof(t_info));
 	info.mlx_ptr = mlx_init();
-	info.win_ptr = mlx_new_window(info.mlx_ptr, 500, 500, "PFFF");
-	info.sec = 0;
-	mlx_mouse_hook(info.win_ptr, draw_line, (void *)&info);
+	info.win_ptr = mlx_new_window(info.mlx_ptr, 3000, 1500, "PFFF");
+	info.pixellines = parse_map(argv);
+	mlx_key_hook(info.win_ptr, rotate, &info);
+	print_map(&info);
 	mlx_loop(info.mlx_ptr);
 	return (0);
 }

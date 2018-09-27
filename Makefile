@@ -6,13 +6,15 @@
 #    By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/04 22:45:06 by obamzuro          #+#    #+#              #
-#    Updated: 2018/08/06 00:35:34 by obamzuro         ###   ########.fr        #
+#    Updated: 2018/09/27 12:38:40 by obamzuro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
-SRCNAME = main.c
+SRCNAME = 	main.c\
+			line_drawer.c\
+			parser.c
 
 FLAGS = -g
 
