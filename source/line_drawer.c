@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 10:16:32 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 12:49:52 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 13:30:08 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		draw_line_vertical(t_info *info, t_draw_line_info *dl_info,
 {
 	if (dl_info->difxy[1] > 0)
 	{
-		while (dl_info->curxy[0] <= pixel->x)
+		while (dl_info->curxy[0] <= pixeltwo->x)
 		{
 			mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 					(int)dl_info->error, dl_info->curxy[0],
@@ -47,7 +47,7 @@ static void		draw_line_vertical(t_info *info, t_draw_line_info *dl_info,
 	}
 	else
 	{
-		while (dl_info->curxy[0] <= pixel->x)
+		while (dl_info->curxy[0] <= pixeltwo->x)
 		{
 			mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 					(int)dl_info->error, dl_info->curxy[0],
@@ -66,7 +66,7 @@ static void		draw_line_horizontal(t_info *info, t_draw_line_info *dl_info,
 {
 	if (dl_info->difxy[1] > 0)
 	{
-		while (dl_info->curxy[0] <= pixel->x)
+		while (dl_info->curxy[0] <= pixeltwo->x)
 		{
 			mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 					dl_info->curxy[0], (int)dl_info->error,
@@ -80,7 +80,7 @@ static void		draw_line_horizontal(t_info *info, t_draw_line_info *dl_info,
 	}
 	else
 	{
-		while (dl_info->curxy[0] <= pixel->x)
+		while (dl_info->curxy[0] <= pixeltwo->x)
 		{
 			mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 					dl_info->curxy[0], (int)dl_info->error,
