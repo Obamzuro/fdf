@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 20:14:42 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/27 23:48:11 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int		key_press(int keycode, void *param)
 	else if (keycode == 9)
 		info->offset[1] -= 20;
 	else if (keycode == 11)
-		info->scale += 1;
+		info->scale += 5;
 	else if (keycode == 45)
-		info->scale -= 1;
+		info->scale -= 5;
 	else
 		rotate(keycode, param);
 	print_map(info);
