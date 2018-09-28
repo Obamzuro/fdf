@@ -6,13 +6,13 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/28 13:51:52 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/28 14:00:10 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		set_intensity_on(int red, int green, int blue, double change)
+int			set_intensity_on(int red, int green, int blue, double change)
 {
 	int		result;
 
@@ -54,13 +54,17 @@ static int	key_press(int keycode, void *param)
 	t_info		*info;
 
 	info = (t_info *)param;
-	if (keycode == 6)
+	if (keycode == 6 && info->offset[0] < WINWIDTH +
+			info->center[0] * info->scale)
 		info->offset[0] += 20;
-	else if (keycode == 7)
+	else if (keycode == 7 && info->offset[0] >
+			-info->center[0] * info->scale)
 		info->offset[0] -= 20;
-	else if (keycode == 8)
+	else if (keycode == 8 && info->offset[1] < WINHEIGHT +
+			info->center[1] * info->scale)
 		info->offset[1] += 20;
-	else if (keycode == 9)
+	else if (keycode == 9 && info->offset[1] >
+			-info->center[1] * info->scale)
 		info->offset[1] -= 20;
 	else if (keycode == 11 && info->scale < 300)
 		info->scale *= 2;
