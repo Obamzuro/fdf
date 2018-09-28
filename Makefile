@@ -6,7 +6,7 @@
 #    By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/04 22:45:06 by obamzuro          #+#    #+#              #
-#    Updated: 2018/09/27 13:32:20 by obamzuro         ###   ########.fr        #
+#    Updated: 2018/09/28 12:02:24 by obamzuro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ HDR = header/fdf.h
 
 all: lib $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) libft/libft.a
 	gcc -o $(NAME) $(FLAGS) $(addprefix -I, $(HDRDIR)) -L libft -lft -lmlx -L minilibx_macos -framework OpenGL -framework AppKit $(SRC)
 
 %.o: %.c $(HDR)
