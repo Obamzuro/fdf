@@ -6,13 +6,13 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 23:48:11 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/28 11:26:59 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		setIntensityOn(int red, int green, int blue, double change)
+int		set_intensity_on(int red, int green, int blue, double change)
 {
 	int		result;
 

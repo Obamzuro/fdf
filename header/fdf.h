@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 16:31:12 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 22:57:53 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/28 11:38:43 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ typedef struct		s_draw_line_info
 {
 	double			difxy[2];
 	double			curxy[2];
-	double		slope;
-	double		error;
-	int			isvert;
+	double			slope;
+	double			error;
+	int				isvert;
 }					t_draw_line_info;
 
 typedef struct		s_parser_info
@@ -56,8 +56,9 @@ typedef struct		s_parser_info
 	double	zlimit;
 }					t_parser_info;
 
-t_ftvector		*parse_map(t_info *info, char **argv);
-int				draw_line(t_pixel *pixel, t_pixel *pixeltwo, void *state);
-int			setIntensityOn(int red, int green, int blue, double change);
-void		print_map(t_info *info);
+t_ftvector			*parse_map(t_info *info, char **argv);
+int					draw_line(t_pixel *pixel, t_pixel *pixeltwo, void *state);
+int					set_intensity_on(int red, int green,
+		int blue, double change);
+void				print_map(t_info *info);
 #endif

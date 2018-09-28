@@ -35,7 +35,7 @@ static void		draw_line_vertical(t_info *info, t_draw_line_info *dl_info,
 
 	while (!dl_info->difxy[1] && dl_info->curxy[0] <= pixeltwo->x)
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr, dl_info->curxy[1],
-			dl_info->curxy[0]++, setIntensityOn(255, 255, 255, 1));
+			dl_info->curxy[0]++, set_intensity_on(255, 255, 255, 1));
 	if (!dl_info->difxy[1])
 		return ;
 	is_pos_angle = dl_info->difxy[1] >= 0 ? 1 : -1;
@@ -43,12 +43,12 @@ static void		draw_line_vertical(t_info *info, t_draw_line_info *dl_info,
 	{
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 				(int)dl_info->error, dl_info->curxy[0],
-				setIntensityOn(255, 255, 255,
+				set_intensity_on(255, 255, 255,
 				(is_pos_angle + 1) / 2 -
 				is_pos_angle * (dl_info->error - (int)dl_info->error)));
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 				(int)dl_info->error + is_pos_angle, dl_info->curxy[0],
-				setIntensityOn(255, 255, 255,
+				set_intensity_on(255, 255, 255,
 				(is_pos_angle - 1) / -2 -
 				-is_pos_angle * (dl_info->error - (int)dl_info->error)));
 		dl_info->error += dl_info->slope * is_pos_angle;
@@ -63,7 +63,7 @@ static void		draw_line_horizontal(t_info *info, t_draw_line_info *dl_info,
 
 	while (!dl_info->difxy[1] && dl_info->curxy[0] <= pixeltwo->x)
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr, dl_info->curxy[0]++,
-			dl_info->curxy[1], setIntensityOn(255, 255, 255, 1));
+			dl_info->curxy[1], set_intensity_on(255, 255, 255, 1));
 	if (!dl_info->difxy[1])
 		return ;
 	is_pos_angle = dl_info->difxy[1] >= 0 ? 1 : -1;
@@ -71,12 +71,12 @@ static void		draw_line_horizontal(t_info *info, t_draw_line_info *dl_info,
 	{
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 				dl_info->curxy[0], (int)dl_info->error,
-				setIntensityOn(255, 255, 255,
+				set_intensity_on(255, 255, 255,
 				(is_pos_angle + 1) / 2 -
 				is_pos_angle * (dl_info->error - (int)dl_info->error)));
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr,
 				dl_info->curxy[0], (int)dl_info->error + is_pos_angle,
-				setIntensityOn(255, 255, 255,
+				set_intensity_on(255, 255, 255,
 				(is_pos_angle - 1) / -2 -
 				-is_pos_angle * (dl_info->error - (int)dl_info->error)));
 		dl_info->error += dl_info->slope * is_pos_angle;
