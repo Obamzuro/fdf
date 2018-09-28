@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/28 11:26:59 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/28 12:59:53 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		main(int argc, char **argv)
 {
 	t_info		info;
 
+	(void)argc;
 	if (!argv[1])
 	{
 		write(1, "Usage: ./fdf map\n", 17);

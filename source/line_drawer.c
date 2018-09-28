@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 10:16:32 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/27 23:17:24 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/28 13:03:35 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void		swap_pixels(t_info *info, t_pixel *pixel,
 		t_pixel *pixeltwo, int *isvert)
 {
+	(void)info;
 	if (fabs(pixeltwo->y - pixel->y) > fabs(pixeltwo->x - pixel->x))
 	{
 		ft_dswap(&pixel->x, &pixel->y);
@@ -33,6 +34,7 @@ static void		draw_line_vertical(t_info *info, t_draw_line_info *dl_info,
 {
 	int		is_pos_angle;
 
+	(void)pixel;
 	while (!dl_info->difxy[1] && dl_info->curxy[0] <= pixeltwo->x)
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr, dl_info->curxy[1],
 			dl_info->curxy[0]++, set_intensity_on(255, 255, 255, 1));
@@ -61,6 +63,7 @@ static void		draw_line_horizontal(t_info *info, t_draw_line_info *dl_info,
 {
 	int		is_pos_angle;
 
+	(void)pixel;
 	while (!dl_info->difxy[1] && dl_info->curxy[0] <= pixeltwo->x)
 		mlx_pixel_put(info->mlx_ptr, info->win_ptr, dl_info->curxy[0]++,
 			dl_info->curxy[1], set_intensity_on(255, 255, 255, 1));

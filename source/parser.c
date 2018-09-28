@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/28 12:39:25 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/28 13:24:44 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 static int			freereturns(void *ptr)
 {
 	free(ptr);
+	return (1);
+}
+
+static int			freearray(char **linechopped)
+{
+	size_t	i;
+
+	i = 0;
+	while (linechopped[i])
+		free(linechopped[i++]);
+	free(linechopped);
 	return (1);
 }
 
@@ -44,7 +55,7 @@ static t_ftvector	*parse_line(char *line, int nline,
 	}
 	parser_info->maxwidth = parser_info->maxwidth < i ?
 		i : parser_info->maxwidth;
-	freereturns(line) && freereturns(linechopped);
+	freereturns(line) && freearray(linechopped);
 	return (pixelline);
 }
 

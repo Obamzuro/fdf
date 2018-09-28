@@ -6,7 +6,7 @@
 #    By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/04 22:45:06 by obamzuro          #+#    #+#              #
-#    Updated: 2018/09/28 12:02:24 by obamzuro         ###   ########.fr        #
+#    Updated: 2018/09/28 13:00:38 by obamzuro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCNAME = 	main.c\
 			parser.c\
 			printer.c
 
-FLAGS = -g
+FLAGS = -g -Wall -Wextra -Werror
 
 SRC = $(addprefix source/, $(SRCNAME))
 
