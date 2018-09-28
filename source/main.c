@@ -6,7 +6,7 @@
 /*   By: obamzuro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/05 14:12:46 by obamzuro          #+#    #+#             */
-/*   Updated: 2018/09/28 12:59:53 by obamzuro         ###   ########.fr       */
+/*   Updated: 2018/09/28 13:51:52 by obamzuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		set_intensity_on(int red, int green, int blue, double change)
 	return (result);
 }
 
-void	rotate(int keycode, t_info *info)
+static void	rotate(int keycode, t_info *info)
 {
 	if (keycode == 0)
 		info->angle[0] += 20;
@@ -42,7 +42,14 @@ void	rotate(int keycode, t_info *info)
 	info->angle[2] %= 720;
 }
 
-int		key_press(int keycode, void *param)
+static int	ft_exit(int keycode, void *param)
+{
+	(void)keycode;
+	(void)param;
+	exit(EXIT_SUCCESS);
+}
+
+static int	key_press(int keycode, void *param)
 {
 	t_info		*info;
 
@@ -55,17 +62,19 @@ int		key_press(int keycode, void *param)
 		info->offset[1] += 20;
 	else if (keycode == 9)
 		info->offset[1] -= 20;
-	else if (keycode == 11)
-		info->scale += 5;
-	else if (keycode == 45)
-		info->scale -= 5;
+	else if (keycode == 11 && info->scale < 300)
+		info->scale *= 2;
+	else if (keycode == 45 && info->scale > 2)
+		info->scale /= 2;
+	else if (keycode == 53)
+		ft_exit(keycode, param);
 	else
 		rotate(keycode, param);
 	print_map(info);
 	return (0);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_info		info;
 
@@ -79,7 +88,8 @@ int		main(int argc, char **argv)
 	info.mlx_ptr = mlx_init();
 	info.win_ptr = mlx_new_window(info.mlx_ptr, WINWIDTH, WINHEIGHT, "FDF");
 	info.pixellines = parse_map(&info, argv);
-	mlx_key_hook(info.win_ptr, key_press, &info);
+	mlx_hook(info.win_ptr, 2, 5, key_press, &info);
+	mlx_hook(info.win_ptr, 17, 1L << 17, ft_exit, &info);
 	print_map(&info);
 	mlx_loop(info.mlx_ptr);
 	return (0);
